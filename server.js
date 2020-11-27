@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const compression = require("compression");
 
+const isAuth = require("./middlewares/isAuth");
 const { PORT } = require('./config/env.config');
 
 const app = express();
@@ -13,7 +14,7 @@ const HOST = "127.0.0.1";
 app.use(cors());
 
 //? for auth handling
-//app.use(isAuth);
+app.use(isAuth);
 
 //? for compression of requests.
 app.use(compression());
@@ -30,12 +31,16 @@ app.use(express.static('app'))
 //? morgan logger
 app.use(morgan("dev"));
 
-app.all('*', (req, res, next) => {
-  res.status(404).json({
-    status: 'fail',
-    message: `Can't find ${req.originalUrl} on this server!`
-  });
-}); 
+require("./routes/agents")(app);
+require("./routes/postulant")(app);
+require("./routes/transmition")(app);
+require("./routes/affrejet")(app);
+require("./routes/cfrejet")(app);
+require("./routes/revenuerejet")(app);
+require("./routes/verification")(app);
+require("./routes/dossier")(app);
+require("./routes/liste")(app);
+require("./routes/controlrejet")(app);
 
 //? simple route
 app.get("/", (req, res) => {
@@ -44,11 +49,23 @@ app.get("/", (req, res) => {
   .json({ message: "Welcome to CNL application." });
 });
 
+app.all('*', (req, res, next) => {
+  res.status(404).json({
+    status: 'fail',
+    message: `Can't find ${req.originalUrl} on this server!`
+  });
+}); 
+
+
 app.listen(PORT || 8080, async() => {
   try {
     console.log(`API running on http://${HOST}:${PORT || 8080}`)
-
+    console.log(process.env.NODE_ENV)
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
 })
+
+//TODO history table for admin.
+
+//TODO search , filter , ordering for the reste of Tables.
