@@ -31,15 +31,9 @@ module.exports = (sequelize, DataTypes) => {
   password:{
       type: DataTypes.STRING
   },
-  // image:{
-  //     type: DataTypes.UUID,
-  //     references:{
-  //         model:"Uploads",
-  //         key:"id"
-  //     }
-  // },
   is_admin:{
-      type: DataTypes.BOOLEAN
+      type: DataTypes.BOOLEAN,
+      defaultValue:false
   }
   
   }, {

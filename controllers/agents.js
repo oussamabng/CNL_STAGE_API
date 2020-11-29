@@ -13,7 +13,7 @@ const { JWT_ACCESS_KEY } = require('../config/env.config');
 exports.register = async(req, res) => {
     try {
         //? delete later is_admin
-        const { email, password, username,is_admin } = req.body;
+        const { email, password, username } = req.body;
         if (!validator.isEmail(email) || password.length <= 4 ||username.length <= 4 ){
             return res.status(500).send({ message: "inputs non valides" });
         }
@@ -29,7 +29,7 @@ exports.register = async(req, res) => {
         }
         //? case user does not exist
         const passwordHashed = await bcrypt.hash(password, 12);
-        const agent = await Agent.build({email,username,is_admin,password:passwordHashed});
+        const agent = await Agent.build({email,username,password:passwordHashed});
         await agent.save();
         await Agent.sync();
 
