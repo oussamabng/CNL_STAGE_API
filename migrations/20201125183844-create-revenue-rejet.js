@@ -21,7 +21,7 @@ module.exports = {
         }
       },
       dossierId:{
-        type: DataTypes.UUID,
+        type: Sequelize.UUID,
         onDelete:"CASCADE",
         references:{
           model:"Dossier",

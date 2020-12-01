@@ -24,17 +24,21 @@ module.exports = (sequelize, DataTypes) => {
     },
     email:{
       type:DataTypes.STRING,
-  },
-  username:{
+    },
+    username:{
       type: DataTypes.STRING,
-  },
-  password:{
+    },
+    password:{
       type: DataTypes.STRING
-  },
-  is_admin:{
+    },
+    is_admin:{
       type: DataTypes.BOOLEAN,
       defaultValue:false
-  }
+    },
+    is_active:{
+      type:DataTypes.BOOLEAN,
+      defaultValue:true
+    }
   
   }, {
     sequelize,

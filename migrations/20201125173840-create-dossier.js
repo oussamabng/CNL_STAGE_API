@@ -24,7 +24,7 @@ module.exports = {
       },
       status: Sequelize.STRING,
       postulant: {
-        type:DataTypes.UUID,
+        type:Sequelize.UUID,
         references:{
           model:"Postulant",
           key:"id"

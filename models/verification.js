@@ -64,9 +64,9 @@ module.exports = (sequelize, DataTypes) => {
       model:"Agents",
       key:"id"
     },
-    
     allowNull:true
   },
+  date_fin: DataTypes.DATE
 }, {
     sequelize,
     modelName: 'Verification',

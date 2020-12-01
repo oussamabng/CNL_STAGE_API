@@ -1,28 +1,27 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Agents', {
-      id: {
+    await queryInterface.createTable('Projects', {
+      id:{
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
         primaryKey:true
-      },
-      email:{
-        type:Sequelize.STRING,
     },
-    username:{
-        type: Sequelize.STRING,
-    },
-    password:{
+      code: {
         type: Sequelize.STRING
-    },
-    is_active:{
-      type:Sequelize.BOOLEAN,
-      defaultValue:true
-    },
-    is_admin:{
-        type: Sequelize.BOOLEAN
-    },
+      },
+      intitulé: {
+        type: Sequelize.STRING
+      },
+      site: {
+        type: Sequelize.STRING
+      },
+      commune: {
+        type: Sequelize.STRING
+      },
+      quota: {
+        type: Sequelize.NUMBER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -34,6 +33,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Agents');
+    await queryInterface.dropTable('Projects');
   }
 };

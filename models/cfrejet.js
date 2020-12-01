@@ -59,6 +59,7 @@ module.exports = (sequelize, DataTypes) => {
         key:"id"
       }
     },
+    date_fin: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'CfRejet',

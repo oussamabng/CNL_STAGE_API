@@ -40,7 +40,8 @@ module.exports = (sequelize, DataTypes) => {
         key:"id"
       }
     },
-    date_rejet: DataTypes.DATE
+    date_rejet: DataTypes.DATE,
+    date_fin:DataTypes.DATE
   }, {
     sequelize,
     modelName: 'ControlRejet',

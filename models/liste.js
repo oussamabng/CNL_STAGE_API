@@ -4,13 +4,9 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Liste extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       Liste.hasMany(models.Dossier);
+      Liste.belongsTo(models.Project);
     }
   };
   Liste.init({
@@ -25,7 +21,15 @@ module.exports = (sequelize, DataTypes) => {
     code_project: DataTypes.STRING,
     num_accuse: DataTypes.STRING,
     date_accuse: DataTypes.DATE,
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    project_id:{
+      type: DataTypes.UUID,
+      references:{
+        model:"Projects",
+        key:"id"
+      },
+      allowNull:true
+    }
   }, {
     sequelize,
     modelName: 'Liste',

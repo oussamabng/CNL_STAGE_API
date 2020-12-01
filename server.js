@@ -41,6 +41,7 @@ require("./routes/verification")(app);
 require("./routes/dossier")(app);
 require("./routes/liste")(app);
 require("./routes/controlrejet")(app);
+require("./routes/project.js")(app);
 
 //? simple route
 app.get("/", (req, res) => {
@@ -60,7 +61,6 @@ app.all('*', (req, res, next) => {
 app.listen(PORT || 8080, async() => {
   try {
     console.log(`API running on http://${HOST}:${PORT || 8080}`)
-    console.log(process.env.NODE_ENV)
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
