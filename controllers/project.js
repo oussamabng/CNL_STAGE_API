@@ -22,22 +22,23 @@ exports.create = async(req,res)=>{
 };
 
 exports.findOne = async(req,res)=>{
-    try {
-        checkAuthAndAdmin(req,res);
-        const { id } = req.params;
-        const project = await Project.findByPk(id);
-        return res.status(200).send(project);
-    } catch (error) {
-        return res
-            .status(500)
-            .send({
-                message: error.message,
-            });
+    if (!checkAuthAndAdmin(req,res)){
+        try {
+            const { id } = req.params;
+            const project = await Project.findByPk(id);
+            return res.status(200).send(project);
+        } catch (error) {
+            return res
+                .status(500)
+                .send({
+                    message: error.message,
+                });
+        }
     }
+    
 };
 
 exports.findAll = async(req,res)=>{
-    try {
         checkAuthAndAdmin(req,res);
         const { page, size,ordering } = req.query;
         const { limit, offset } = getPagination(page, size);
@@ -52,13 +53,6 @@ exports.findAll = async(req,res)=>{
                   err.message || "Some error occurred while retrieving postulants."
               });
         })
-    } catch (error) {
-        return res
-            .status(500)
-            .send({
-                message: error.message,
-            });
-    }
 };
 
 exports.update = async(req,res)=>{

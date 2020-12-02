@@ -5,7 +5,7 @@ exports.checkAuth = (req,res)=>{
             .send({
                 message:"invalide credentials"
             })
-    }
+    }else return false
 }
 
 exports.checkAuthAndAdmin = (req,res)=>{
@@ -15,5 +15,5 @@ exports.checkAuthAndAdmin = (req,res)=>{
             .send({
                 message:"invalide credentials"
             })
-    }
+    }else return false
 }

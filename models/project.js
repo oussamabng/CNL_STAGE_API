@@ -18,7 +18,14 @@ module.exports = (sequelize, DataTypes) => {
     intitulé: DataTypes.STRING,
     site: DataTypes.STRING,
     commune: DataTypes.STRING,
-    quota: DataTypes.NUMBER
+    quota: DataTypes.NUMBER,
+    promoteur_id:{
+      type: DataTypes.UUID,
+      references:{
+        model:"Promoteurs",
+        key:"id"
+      }
+    }
   }, {
     sequelize,
     modelName: 'Project',

@@ -26,6 +26,9 @@ module.exports = app => {
 
     // Logout agent
     router.get("/auth/logout",agents.logout);
+
+    // create superuser 
+    router.post("/auth/admin/create",agents.create_superuser)
   
     app.use('/api', router);
   };

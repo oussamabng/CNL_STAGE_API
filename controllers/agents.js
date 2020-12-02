@@ -12,7 +12,6 @@ const { JWT_ACCESS_KEY } = require('../config/env.config');
 //! POST /api/auth/register
 exports.register = async(req, res) => {
     try {
-        //? delete later is_admin
         const { email, password, username } = req.body;
         if (!validator.isEmail(email) || password.length <= 4 ||username.length <= 4 ){
             return res.status(500).send({ message: "inputs non valides" });
@@ -49,7 +48,24 @@ exports.register = async(req, res) => {
             });
     }
 };
-  
+
+exports.create_superuser = async(req,res)=>{
+    try {
+        const { email, password, username } = req.body;
+    const passwordHashed = await bcrypt.hash(password, 12);
+    const admin = await Agent.build({email,username,password:passwordHashed,is_admin:true,is_active:true});
+    await admin.save();
+    return res.status(200).send({
+        message: "superuser crée avec succès",
+    });
+    } catch (error) {
+        return res
+            .status(500)
+            .send({
+                message: error.message,
+            });
+    }
+}
 //! GET /api/agents
 exports.findAll = (req, res) => {
     const { page, size, email,search } = req.query;
