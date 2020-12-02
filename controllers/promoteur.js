@@ -47,10 +47,27 @@ exports.findOne = async(req,res)=>{
 }
 
 exports.findAll = async(req,res)=>{
-    const { page, size } = req.query;
+    const { page, size, search } = req.query;
     const { limit, offset } = getPagination(page, size);
     checkAuthAndAdmin(req,res);
-    Promoteur.findAndCountAll({offset,limit})
+    const condition = search ? {
+        [Op.or]: [{
+            first_name : {
+                [Op.like] : `%${search}%`
+            },
+            last_name : {
+                [Op.like] : `%${search}%`
+            },
+            email : {
+                [Op.like] : `%${search}%`
+            },
+            adr : {
+                [Op.like] : `%${search}%`
+            },
+        }
+        ]
+      } : {}
+    Promoteur.findAndCountAll({offset,limit,where:condition})
     .then(data=>{   
         const response = getPagingData(data, page, limit);
         res.send(response);

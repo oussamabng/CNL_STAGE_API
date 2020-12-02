@@ -218,15 +218,10 @@ exports.logout = (req,res)=>{
 }
 
 exports.findSelf = async(req,res)=>{    
-    try {
+    console.log(req.userId)
+    
         checkAuth(req,res);
         const selfAgent = await Agent.findOne({where:{id:req.userId},attributes:["id","email","username","is_admin","createdAt","updatedAt"]});
         return res.status(200).send(selfAgent);
-    } catch (error) {
-        return res
-            .status(500)
-            .send({
-                message: error.message,
-            });
-    }
+
 }

@@ -5,8 +5,6 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Liste extends Model {
     static associate(models) {
-      Liste.hasMany(models.Dossier);
-      Liste.belongsTo(models.Project);
     }
   };
   Liste.init({

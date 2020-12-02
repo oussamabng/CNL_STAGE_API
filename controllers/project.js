@@ -1,4 +1,5 @@
 const Project = require("../models").Project;
+const Promoteur = require("../models").Promoteur;
 const db = require("../models/index");
 const Op = db.Sequelize.Op;
 const { checkAuthAndAdmin } = require("../middlewares/checkAuth");
@@ -40,9 +41,22 @@ exports.findOne = async(req,res)=>{
 
 exports.findAll = async(req,res)=>{
         checkAuthAndAdmin(req,res);
-        const { page, size,ordering } = req.query;
+        const { page, size,ordering,search } = req.query;
         const { limit, offset } = getPagination(page, size);
-        Project.findAndCountAll({offset,limit,order:Order(ordering)})
+        const condition = search ? {
+            [Op.or]: [
+              { intitulé: { [Op.like]: `%${search}%` } },
+              { commune: { [Op.like]: `%${search}%` } },
+              {
+                '$Promoteur.first_name$':{ [Op.like]: `%${search}%` }
+              },
+              {
+                '$Promoteur.last_name$':{ [Op.like]: `%${search}%` }
+              }
+            ]
+          } : {}
+        
+        Project.findAndCountAll({offset,limit,order:Order(ordering),where:condition,include:Promoteur,attributes:{exclude:["promoteur_id","PromoteurId"]}})
         .then(data=>{
             const response = getPagingData(data, page, limit);
             return res.status(200).send(response); 
@@ -50,7 +64,7 @@ exports.findAll = async(req,res)=>{
         .catch(err=>{
             return res.status(500).send({
                 message:
-                  err.message || "Some error occurred while retrieving postulants."
+                  err.message || "Some error occurred while retrieving projects."
               });
         })
 };

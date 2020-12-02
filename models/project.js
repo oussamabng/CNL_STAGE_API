@@ -5,7 +5,7 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Project extends Model {
     static associate(models) {
-      Project.hasMany(models.Liste);
+      Project.belongsTo(models.Promoteur);
     }
   };
   Project.init({
@@ -19,13 +19,6 @@ module.exports = (sequelize, DataTypes) => {
     site: DataTypes.STRING,
     commune: DataTypes.STRING,
     quota: DataTypes.NUMBER,
-    promoteur_id:{
-      type: DataTypes.UUID,
-      references:{
-        model:"Promoteurs",
-        key:"id"
-      }
-    }
   }, {
     sequelize,
     modelName: 'Project',

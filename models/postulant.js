@@ -10,8 +10,6 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Postulant.belongsTo(models.Dossier);
-      Postulant.hasMany(models.Conjoint);
     }
   };
   Postulant.init({
