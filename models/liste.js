@@ -5,6 +5,8 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Liste extends Model {
     static associate(models) {
+      Liste.belongsTo(models.Project);
+      Liste.hasMany(models.Dossier);
     }
   };
   Liste.init({
@@ -13,21 +15,26 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey:true
     },
-    ref: DataTypes.STRING,
-    date: DataTypes.DATE,
-    nbr_postulant: DataTypes.NUMBER,
-    code_project: DataTypes.STRING,
-    num_accuse: DataTypes.STRING,
-    date_accuse: DataTypes.DATE,
-    type: DataTypes.STRING,
-    project_id:{
-      type: DataTypes.UUID,
-      references:{
-        model:"Projects",
-        key:"id"
-      },
-      allowNull:true
-    }
+    ref: {
+      type:DataTypes.STRING,
+      allowNull:false
+    },
+    nbr_postulant: {
+      type:DataTypes.NUMBER,
+      allowNull:false
+    },
+    num_accuse: {
+      type:DataTypes.STRING,
+      allowNull:false
+    },
+    date_accuse: {
+      type:DataTypes.DATE,
+      allowNull:false
+    },
+    type: {
+      type:DataTypes.STRING,
+      allowNull:false
+    },
   }, {
     sequelize,
     modelName: 'Liste',

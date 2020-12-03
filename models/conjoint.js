@@ -4,12 +4,8 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Conjoint extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
+      Conjoint.belongsTo(models.Postulant);
     }
   };
   Conjoint.init({
@@ -60,14 +56,6 @@ email:{
     validate:{
         isEmail:true
     }
-},
-postulant: {
-  type:DataTypes.UUID,
-  references:{
-    model:"Postulant",
-    key:"id"
-  },
-  allowNull:true
 },
   }, {
     sequelize,

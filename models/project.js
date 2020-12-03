@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   class Project extends Model {
     static associate(models) {
       Project.belongsTo(models.Promoteur);
+      Project.hasMany(models.Liste);
     }
   };
   Project.init({

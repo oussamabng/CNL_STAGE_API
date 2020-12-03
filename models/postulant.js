@@ -4,12 +4,9 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Postulant extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
+        Postulant.hasOne(models.Dossier);
+        Postulant.hasMany(models.Conjoint);
     }
   };
   Postulant.init({

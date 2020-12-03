@@ -1,8 +1,11 @@
 const Liste = require("../models").Liste;
+const Project = require("../models").Project;
+
 const db = require("../models/index");
 const Op = db.Sequelize.Op;
 const { checkAuth } = require("../middlewares/checkAuth");
 const { getPagingData,getPagination } = require("../middlewares/pagination");
+const order = require("../middlewares/order");
 
 exports.create = async(req,res)=>{
     checkAuth(req,res);
@@ -45,10 +48,19 @@ exports.findOne = async(req,res)=>{
 }
 
 exports.findAll = async(req,res)=>{
-    const { page, size } = req.query;
+    const { page, size,search,ordering } = req.query;
     const { limit, offset } = getPagination(page, size);
+    const condition = search ? {
+        [Op.or]: [
+          { ref: { [Op.like]: `%${search}%` } },
+          { type: { [Op.like]: `%${search}%` } },
+          {
+            '$Project.intitulé$':{ [Op.like]: `%${search}%` }
+          },
+        ]
+      } : {}
     checkAuth(req,res);
-    Liste.findAndCountAll({offset,limit})
+    Liste.findAndCountAll({offset,limit,order:order(ordering),where:condition,include:Project,attributes:{exclude:["ProjectId"]}})
     .then(data=>{   
         const response = getPagingData(data, page, limit);
         res.send(response);

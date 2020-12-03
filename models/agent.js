@@ -22,14 +22,24 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey:true
     },
-    email:{
+    email: {
       type:DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        is:    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i
+
+      }
     },
     username:{
-      type: DataTypes.STRING,
+      type:DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        is:/^[a-z0-9]{4,}$/i
+      }
     },
     password:{
-      type: DataTypes.STRING
+      type:DataTypes.STRING,
+      allowNull: false,
     },
     is_admin:{
       type: DataTypes.BOOLEAN,

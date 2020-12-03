@@ -74,8 +74,16 @@ exports.findAll = (req, res) => {
     try {
         //? require auth and admin
         checkAuthAndAdmin(req,res);
-    const condition = email ? { email: { [Op.like]: `%${email}%` } } : null;
-    Agent.findAndCountAll({where:condition,offset,limit,attributes:["id","email","username","is_admin","createdAt","updatedAt"]})
+    const condition = email ? 
+    { 
+        email: {
+        [Op.like]: `%${email}%`
+        },
+        is_admin : false
+    } : {
+        is_admin : false
+    };
+    Agent.findAndCountAll({where:condition,offset,limit,attributes:["id","email","username","is_admin","is_active","createdAt","updatedAt"]})
     .then(data=>{   
         const response = getPagingData(data, page, limit);
         return res.status(200).send(response);
@@ -99,6 +107,7 @@ exports.findAll = (req, res) => {
 exports.findOne = async(req, res) => {
   try {
     const {id} = req.params;
+    checkAuth(req,res);
     const agent = await Agent.findOne({where:{id},attributes:["id","email","username","is_admin","createdAt","updatedAt"]});
     //? agent dont exist
     if (!agent){
@@ -124,7 +133,7 @@ exports.findOne = async(req, res) => {
 exports.update = async(req, res) => {
   try {
     const {id} = req.params;
-    checkAuthAndAdmin(req,res);
+    checkAuth(req,res);
     await Agent.update(
         req.body,
         {
@@ -177,6 +186,12 @@ exports.login = async(req, res) => {
             return res
             .status(500)
             .send({ message: "incorrect Email ou mot de passe" });
+        }
+
+        if (!userExist.is_active){
+            return res
+            .status(500)
+            .send({ message: "Votre compte est banni par l'adminitrateur" });
         }
 
         //? case user exist, compare password

@@ -3,11 +3,11 @@ module.exports = app => {
   
     const router = require("express").Router();
 
-    router.post("/",liste.create);
-    router.get("/",liste.findAll);
-    router.get("/:id",liste.findOne);
-    router.put("/:id",liste.update);
-    router.delete("/:id",liste.delete);
+    router.post("/liste",liste.create);
+    router.get("/liste/all",liste.findAll);
+    router.get("/liste/:id",liste.findOne);
+    router.put("/liste/:id",liste.update);
+    router.delete("/liste/:id",liste.delete);
 
-    app.use('/api/liste', router);
+    app.use('/api', router);
   };

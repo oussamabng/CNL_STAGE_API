@@ -4,12 +4,9 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Dossier extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
+      Dossier.belongsTo(models.Postulant);
+      Dossier.belongsTo(models.Liste);
     }
   };
   Dossier.init({
@@ -23,22 +20,6 @@ module.exports = (sequelize, DataTypes) => {
     date_bordoreau_arrive: DataTypes.DATE,
     num_accuse: DataTypes.NUMBER,
     date_accuse: DataTypes.DATE,
-    postulant: {
-      type:DataTypes.UUID,
-      references:{
-        model:"Postulant",
-        key:"id"
-      },
-      allowNull:true
-    },
-    liste_id:{
-      type:DataTypes.UUID,
-      references:{
-        model:"Liste",
-        key:"id"
-      },
-      allowNull:true
-    },
     status: DataTypes.STRING,
     num_bordoreau_envoie:DataTypes.NUMBER,
     date_bordoreau_envoie: DataTypes.DATE,
