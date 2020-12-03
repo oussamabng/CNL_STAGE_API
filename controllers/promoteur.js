@@ -3,6 +3,7 @@ const db = require("../models/index");
 const Op = db.Sequelize.Op;
 const { checkAuthAndAdmin } = require("../middlewares/checkAuth");
 const { getPagingData,getPagination } = require("../middlewares/pagination");
+const order = require("../middlewares/order");
 
 exports.create = async(req,res)=>{
     checkAuthAndAdmin(req,res);
@@ -47,33 +48,23 @@ exports.findOne = async(req,res)=>{
 }
 
 exports.findAll = async(req,res)=>{
-    const { page, size, search } = req.query;
+    const { page, size,search,ordering } = req.query;
     const { limit, offset } = getPagination(page, size);
-    checkAuthAndAdmin(req,res);
     const condition = search ? {
-        [Op.or]: [{
-            first_name : {
-                [Op.like] : `%${search}%`
-            },
-            last_name : {
-                [Op.like] : `%${search}%`
-            },
-            email : {
-                [Op.like] : `%${search}%`
-            },
-            adr : {
-                [Op.like] : `%${search}%`
-            },
-        }
+        [Op.or]: [
+          { first_name: { [Op.like]: `%${search}%` } },
+          { last_name: { [Op.like]: `%${search}%` } },
+          { email: { [Op.like]: `%${search}%` } },
         ]
       } : {}
-    Promoteur.findAndCountAll({offset,limit,where:condition})
+    checkAuthAndAdmin(req,res);
+    Promoteur.findAndCountAll({offset,limit,where:condition,order:order(ordering)})
     .then(data=>{   
         const response = getPagingData(data, page, limit);
-        res.send(response);
+        return res.send(response);
     })
     .catch(err=>{
-        res.status(500).send({
+        return res.status(500).send({
             message:
               err.message || "Some error occurred while retrieving promoteurs."
           });

@@ -42,7 +42,7 @@ require("./routes/dossier")(app);
 require("./routes/liste")(app);
 require("./routes/controlrejet")(app);
 require("./routes/project.js")(app);
-require("./routes/promoteur.js")(app);
+require("./routes/promoteur")(app);
 
 //? simple route
 app.get("/", (req, res) => {

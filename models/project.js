@@ -14,11 +14,23 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey:true
     },
-    code: DataTypes.STRING,
-    intitulé: DataTypes.STRING,
-    site: DataTypes.STRING,
+    code: {
+      type:DataTypes.NUMBER,
+      allowNull:false,
+    },
+    intitulé: {
+      type:DataTypes.STRING,
+      allowNull:false,
+    },
+    site: {
+      type:DataTypes.STRING,
+      allowNull:false,
+    },
     commune: DataTypes.STRING,
-    quota: DataTypes.NUMBER,
+    quota:{
+      type:DataTypes.NUMBER,
+      allowNull:false,
+    },
   }, {
     sequelize,
     modelName: 'Project',
