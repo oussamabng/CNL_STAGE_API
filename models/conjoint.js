@@ -57,6 +57,13 @@ email:{
         isEmail:true
     }
 },
+PostulantId:{
+  type: DataTypes.UUID,
+  references:{
+    model:"Postulants",
+    key:"id"
+  }
+}
   }, {
     sequelize,
     modelName: 'Conjoint',

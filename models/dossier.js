@@ -7,6 +7,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Dossier.belongsTo(models.Postulant);
       Dossier.belongsTo(models.Liste);
+      Dossier.hasMany(models.AffRejet);
+      Dossier.hasMany(models.CfRejet);
+      Dossier.hasMany(models.ControlRejet);
+      Dossier.hasMany(models.RevenueRejet);
+      Dossier.hasMany(models.Transmition);
+      Dossier.hasMany(models.Verification);
     }
   };
   Dossier.init({
@@ -23,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.STRING,
     num_bordoreau_envoie:DataTypes.NUMBER,
     date_bordoreau_envoie: DataTypes.DATE,
-    date_reception_des_reserve: DataTypes.DATE,
+    date_reception_des_reserve: DataTypes.DATE, 
     revenue_postulant: DataTypes.STRING,
     revenue_conjoint: DataTypes.STRING,
     revenue : DataTypes.STRING

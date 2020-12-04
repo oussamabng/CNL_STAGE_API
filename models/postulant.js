@@ -2,11 +2,12 @@
 const {
   Model
 } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {    
   class Postulant extends Model {
     static associate(models) {
         Postulant.hasOne(models.Dossier);
         Postulant.hasMany(models.Conjoint);
+        Postulant.hasMany(models.AffRejet);
     }
   };
   Postulant.init({
@@ -36,9 +37,8 @@ place_of_birth:{
 date_of_birth:{
     type:DataTypes.DATE
 },
-gender:{
-    type: DataTypes.ENUM,
-    values:["M","F"]
+adr:{
+    type:DataTypes.STRING
 },
 phone1:{
     type: DataTypes.STRING,
@@ -153,5 +153,6 @@ family_situation:{
     sequelize,
     modelName: 'Postulant',
   });
+  Postulant.sync();
   return Postulant;
 };

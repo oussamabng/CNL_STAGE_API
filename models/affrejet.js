@@ -4,13 +4,10 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class AffRejet extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      AffRejet.belongsTo(models.Dossier);
+      AffRejet.belongsTo(models.Postulant,{foreignKey:"agent_aff"});
+      AffRejet.belongsTo(models.Postulant,{foreignKey:"agent_compf"});
     }
   };
   AffRejet.init({
@@ -25,13 +22,13 @@ module.exports = (sequelize, DataTypes) => {
     date_aff: {
       type: DataTypes.DATE
     },
-    agent_aff: {
-      type: DataTypes.UUID,
-      references:{
-        model:"Agent",
-        key:"id"
-      }
-    },
+    // agent_aff: {
+    //   type: DataTypes.UUID,
+    //   references:{
+    //     model:"Agent",
+    //     key:"id"
+    //   }
+    // },
     caisse: {
       type: DataTypes.ENUM,
       values:["CASNOS","CNAS","CNR"]
@@ -45,21 +42,13 @@ module.exports = (sequelize, DataTypes) => {
     comformite: {
       type: DataTypes.BOOLEAN
     },
-    agent_compf: {
-      type: DataTypes.UUID,
-      references:{
-        model:"Agent",
-        key:"id"
-      }
-    },
-    dossierId:{
-      type: DataTypes.UUID,
-      onDelete:"CASCADE",
-      references:{
-        model:"Dossier",
-        key:"id"
-      }
-    },
+    // agent_compf: {
+    //   type: DataTypes.UUID,
+    //   references:{
+    //     model:"Agent",
+    //     key:"id"
+    //   }
+    // },
     date_fin: DataTypes.DATE
 
   }, {

@@ -1,8 +1,12 @@
 const Dossier = require("../models").Dossier;
+const Postulant = require("../models").Postulant;
+const Liste = require("../models").Liste;
+
 const db = require("../models/index");
 const Op = db.Sequelize.Op;
 const { checkAuth } = require("../middlewares/checkAuth");
 const { getPagingData,getPagination } = require("../middlewares/pagination");
+const order = require("../middlewares/order");
 
 exports.create = async(req,res)=>{
     checkAuth(req,res);
@@ -45,10 +49,24 @@ exports.findOne = async(req,res)=>{
 }
 
 exports.findAll = async(req,res)=>{
-    const { page, size } = req.query;
+    const { page, size,search,ordering } = req.query;
     const { limit, offset } = getPagination(page, size);
+    const condition = search ? {
+        [Op.or]: [
+          { status: { [Op.like]: `%${search}%` } },
+          {
+            '$Postulant.first_name$':{ [Op.like]: `%${search}%` }
+          },
+          {
+            '$Postulant.last_name$':{ [Op.like]: `%${search}%` }
+          },
+          {
+            '$Liste.ref$':{ [Op.like]: `%${search}%` }
+          },
+        ]
+      } : {}
     checkAuth(req,res);
-    Dossier.findAndCountAll({offset,limit})
+    Dossier.findAndCountAll({offset,limit,where:condition,order:order(ordering),include:[Postulant,Liste]})
     .then(data=>{   
         const response = getPagingData(data, page, limit);
         res.send(response);

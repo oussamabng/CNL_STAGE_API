@@ -33,6 +33,7 @@ app.use(morgan("dev"));
 
 require("./routes/agents")(app);
 require("./routes/postulant")(app);
+require("./routes/conjoint")(app);
 require("./routes/transmition")(app);
 require("./routes/affrejet")(app);
 require("./routes/cfrejet")(app);
@@ -41,7 +42,7 @@ require("./routes/verification")(app);
 require("./routes/dossier")(app);
 require("./routes/liste")(app);
 require("./routes/controlrejet")(app);
-require("./routes/project.js")(app);
+require("./routes/project")(app);
 require("./routes/promoteur")(app);
 
 //? simple route

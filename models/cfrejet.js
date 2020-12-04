@@ -51,14 +51,6 @@ module.exports = (sequelize, DataTypes) => {
     date_rejet_cf: {
       type: DataTypes.DATE
     },
-    dossierId:{
-      type: DataTypes.UUID,
-      onDelete:"CASCADE",
-      references:{
-        model:"Dossier",
-        key:"id"
-      }
-    },
     date_fin: DataTypes.DATE
   }, {
     sequelize,

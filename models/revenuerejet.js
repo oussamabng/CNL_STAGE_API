@@ -28,14 +28,6 @@ module.exports = (sequelize, DataTypes) => {
           key:"id"
         }
     },
-    dossierId:{
-      type: DataTypes.UUID,
-      onDelete:"CASCADE",
-      references:{
-        model:"Dossier",
-        key:"id"
-      }
-    },
     date_fin: DataTypes.DATE
   }, {
     sequelize,

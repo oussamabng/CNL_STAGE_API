@@ -42,15 +42,6 @@ module.exports = (sequelize, DataTypes) => {
   date_fin_verification:{
     type: DataTypes.DATE
   },
-  dossierId:{
-    type: DataTypes.UUID,
-    onDelete:"CASCADE",
-    references:{
-      model:"Dossiers",
-      key:"id"
-    },
-    allowNull:true
-  },
   date_bloque:{
     type: DataTypes.DATE
   },
