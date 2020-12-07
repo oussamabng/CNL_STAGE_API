@@ -236,7 +236,7 @@ exports.findSelf = async(req,res)=>{
     console.log(req.userId)
     
         checkAuth(req,res);
-        const selfAgent = await Agent.findOne({where:{id:req.userId},attributes:["id","email","username","is_admin","createdAt","updatedAt"]});
+        const selfAgent = await Agent.findOne({where:{id:req.userId},attributes:["id","is_active","email","username","is_admin","createdAt","updatedAt"]});
         return res.status(200).send(selfAgent);
 
 }
