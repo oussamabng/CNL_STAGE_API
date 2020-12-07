@@ -153,6 +153,5 @@ family_situation:{
     sequelize,
     modelName: 'Postulant',
   });
-  Postulant.sync();
   return Postulant;
 };

@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey:true
   },
+    n:DataTypes.NUMBER,
     date_reception: DataTypes.DATE,
     num_bordoreau_arrive: DataTypes.STRING,
     date_bordoreau_arrive: DataTypes.DATE,
@@ -37,6 +38,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Dossier',
-  });
+  }); 
   return Dossier;
 };

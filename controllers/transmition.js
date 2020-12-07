@@ -1,4 +1,7 @@
 const Transmition = require("../models").Transmition;
+const Agent = require("../models").Agent;
+const Dossier = require("../models").Dossier;
+
 const db = require("../models/index");
 const Op = db.Sequelize.Op;
 const {checkAuth} = require("../middlewares/checkAuth");
@@ -29,11 +32,15 @@ exports.findOne = async(req,res)=>{
 }
 
 exports.findAll = async(req,res)=>{
-    const { page, size,dossierId,ordering } = req.query;
+    const { page, size,ordering,DossierId} = req.query;
     const { limit, offset } = getPagination(page, size);
-    const condition = dossierId ? {dossierId: dossierId} : null;
+    const condition = DossierId ? {
+        '$Dossier.id$': DossierId
+      } : null;
+    
+
     checkAuth(req,res);
-    Transmition.findAndCountAll({offset,limit,where:condition,order:Order(ordering)})
+    Transmition.findAndCountAll({offset,limit,include:[Agent,Dossier],attributes:{exclude:["AgentId","DossierId"]},where:condition,order:Order(ordering)})
     .then(data=>{   
         const response = getPagingData(data, page, limit);
         res.send(response);

@@ -6,16 +6,9 @@ const Agent = require("../models/").Agent;
 
 module.exports = (sequelize, DataTypes) => {
   class Transmition extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      Transmition.belongsTo(models.Agent, {
-        foreignKey: 'agentId',
-        onDelete: 'CASCADE',
-      })
+      Transmition.belongsTo(models.Agent,{constraints: false});
+      Transmition.belongsTo(models.Dossier,{constraints: false});
     }
   };
   Transmition.init({
@@ -23,16 +16,22 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey:true
+    },
+    AgentId:{
+        type:DataTypes.UUID,
+        references:{
+          model:"Agents",
+          key:"id"
+        }
+    },
+    DossierId:{
+      type:DataTypes.UUID,
+      references:{
+        model:"Dossiers",
+        key:"id"
+      }
   },
     date: DataTypes.DATE,
-    agentId: {
-      type: DataTypes.UUID,
-      onDelete: 'CASCADE',
-      references: {
-        model: "Agents",
-        key: 'id',
-      }
-    },
   }, {
     sequelize,
     modelName: 'Transmition',

@@ -53,7 +53,6 @@ exports.findAll = async(req,res)=>{
     const { limit, offset } = getPagination(page, size);
     const condition = search ? {
         [Op.or]: [
-          { status: { [Op.like]: `%${search}%` } },
           {
             '$Postulant.first_name$':{ [Op.like]: `%${search}%` }
           },
@@ -62,6 +61,10 @@ exports.findAll = async(req,res)=>{
           },
           {
             '$Liste.ref$':{ [Op.like]: `%${search}%` }
+          },
+          ,
+          {
+            '$Postulant.place_of_birth$':{ [Op.like]: `%${search}%` }
           },
         ]
       } : {}
