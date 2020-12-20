@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Verification.belongsTo(models.Dossier);
     }
   };
   Verification.init({
@@ -27,9 +27,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     allowNull:true
   },
-  date_debut_verification:{
-    type: DataTypes.DATE
-  },
   is_piece_manque:{
     type: DataTypes.BOOLEAN
   },
@@ -39,14 +36,20 @@ module.exports = (sequelize, DataTypes) => {
   is_dossier_bloque:{
     type: DataTypes.BOOLEAN
   },
-  date_fin_verification:{
-    type: DataTypes.DATE
-  },
   date_bloque:{
     type: DataTypes.DATE
   },
   date_debloque:{
     type: DataTypes.DATE
+  },
+  date_envoie_bordoreau:{
+    type: DataTypes.DATE
+  },
+  date_reception_reserve:{
+    type: DataTypes.DATE
+  },
+  num_bordoreau:{
+    type:DataTypes.STRING
   },
   agent_debloqueur:{
     type: DataTypes.UUID,
@@ -57,7 +60,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     allowNull:true
   },
-  date_fin: DataTypes.DATE
 }, {
     sequelize,
     modelName: 'Verification',

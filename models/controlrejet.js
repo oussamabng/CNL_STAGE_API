@@ -15,14 +15,6 @@ module.exports = (sequelize, DataTypes) => {
   };
   ControlRejet.init({
     num_ctrl: DataTypes.STRING,
-    date_ctrl: DataTypes.DATE,
-    agent_ctrl: {
-      type: DataTypes.UUID,
-      references:{
-        model:"Agent",
-        key:"id"
-      }
-    },
     resultat_ctrl:{
       type: DataTypes.BOOLEAN
     },
@@ -32,8 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM,
       values:["nv","redressement","recours"]
     },
-    date_rejet: DataTypes.DATE,
-    date_fin:DataTypes.DATE
+    date_rejet_ctrl: DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'ControlRejet',

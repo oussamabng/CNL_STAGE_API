@@ -19,16 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey:true
     },
-    date_rejet_revenue: DataTypes.DATE,
     rejet_revenue: DataTypes.BOOLEAN,
-    agent_revenue: {
-      type: DataTypes.UUID,
-        references:{
-          model:"Agent",
-          key:"id"
-        }
-    },
-    date_fin: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'RevenueRejet',

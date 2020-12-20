@@ -22,13 +22,6 @@ module.exports = (sequelize, DataTypes) => {
     date_aff: {
       type: DataTypes.DATE
     },
-    // agent_aff: {
-    //   type: DataTypes.UUID,
-    //   references:{
-    //     model:"Agent",
-    //     key:"id"
-    //   }
-    // },
     caisse: {
       type: DataTypes.ENUM,
       values:["CASNOS","CNAS","CNR"]
@@ -36,20 +29,9 @@ module.exports = (sequelize, DataTypes) => {
     resultat_aff: {
       type: DataTypes.BOOLEAN
     },
-    date_resultat: {
-      type: DataTypes.DATE
-    },
     comformite: {
       type: DataTypes.BOOLEAN
     },
-    // agent_compf: {
-    //   type: DataTypes.UUID,
-    //   references:{
-    //     model:"Agent",
-    //     key:"id"
-    //   }
-    // },
-    date_fin: DataTypes.DATE
 
   }, {
     sequelize,

@@ -1,4 +1,6 @@
 const Verification = require("../models").Verification;
+const Dossier = require("../models").Dossier;
+
 const db = require("../models/index");
 const Op = db.Sequelize.Op;
 const {checkAuth} = require("../middlewares/checkAuth");
@@ -37,11 +39,14 @@ exports.findOne = async(req,res)=>{
 
 exports.findAll = async(req,res)=>{
     try {
-        const { page, size,dossierId,ordering } = req.query;
+        const { page, size,dossierId,ordering, } = req.query;
         const { limit, offset } = getPagination(page, size);
-        const condition = dossierId ? {dossierId: dossierId} : null;
+        const condition = dossierId ? {
+            '$Dossier.id$':{ [Op.like]: `%${dossierId}%` }
+        } : null;
+        
         checkAuth(req,res);
-        Verification.findAndCountAll({offset,limit,where:condition,order:Order(ordering)})
+        Verification.findAndCountAll({offset,limit,where:condition,order:Order(ordering),include:Dossier,attributes:{exclude:"DossierId"}})
         .then(data=>{
             const response = getPagingData(data, page, limit);
             res.send(response);

@@ -22,16 +22,6 @@ module.exports = (sequelize, DataTypes) => {
     num_cf: {
       type: DataTypes.STRING
     },
-    date_cf: {
-      type: DataTypes.DATE
-    },
-    agent_cf: {
-      type: DataTypes.UUID,
-      references:{
-        model:"Agent",
-        key:"id"
-      }
-    },
     resultat_cf: {
       type: DataTypes.BOOLEAN
     },
@@ -41,17 +31,9 @@ module.exports = (sequelize, DataTypes) => {
     rejet_cf: {
       type: DataTypes.BOOLEAN
     },
-    agent_rejet_cf: {
-      type: DataTypes.UUID,
-      references:{
-        model:"Agent",
-        key:"id"
-      }
-    },
     date_rejet_cf: {
       type: DataTypes.DATE
     },
-    date_fin: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'CfRejet',

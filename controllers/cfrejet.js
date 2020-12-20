@@ -46,22 +46,24 @@ exports.findOne = async(req,res)=>{
 }
 
 exports.findAll = async(req,res)=>{
-    const { page, size,search } = req.query;
+    try { 
+    const { page, size,dossierId } = req.query;
     const { limit, offset } = getPagination(page, size);
     const condition = dossierId ? {dossierId: dossierId} : null;
-
+    
     checkAuth(req,res);
-    CfRejet.findAndCountAll({offset,limit,where:condition})
-    .then(data=>{   
-        const response = getPagingData(data, page, limit);
-        return res.send(response);
-    })
-    .catch(err=>{
-        return res.status(500).send({
-            message:
-              err.message || "Some error occurred while retrieving cf_rejet."
-          });
-    })
+    const response = await CfRejet.findAndCountAll({offset,limit,where:condition});
+    const final_response = getPagingData(response, page, limit);
+
+    console.log(final_response);
+    return res.send(final_response);
+    } catch (error) {
+        return res
+            .status(500)
+            .send({
+                message: error.message,
+            });
+    }
 }
 
 exports.update = async(req,res)=>{

@@ -1,6 +1,7 @@
 const Dossier = require("../models").Dossier;
 const Postulant = require("../models").Postulant;
 const Liste = require("../models").Liste;
+const Transmition = require("../models").Transmition;
 
 const db = require("../models/index");
 const Op = db.Sequelize.Op;
@@ -97,4 +98,42 @@ exports.delete = async(req,res)=>{
         return res
         .status(201)
         .send({message:"dossier deleted"});
+}
+
+exports.getForAgent = async(req,res)=>{
+    try {
+        const { AgentId } = req.params;
+        const { page, size,search,ordering } = req.query;
+        const { limit, offset } = getPagination(page, size);
+        checkAuth(req,res);
+        const condition = {
+            'AgentId': AgentId
+        }
+        let dossierIds = [];
+        const transmitionsAgent = await Transmition.findAll({where:condition,attributes:["DossierId"]});
+        transmitionsAgent.map((t)=>
+            dossierIds.push(t.DossierId)
+            )
+        const conditionDossier = {
+            id : {
+                [Op.in]: dossierIds
+            }
+        }
+            Dossier.findAndCountAll({limit,offset,where:conditionDossier,order:order(ordering),include:[Postulant,Liste]})
+            .then(data=>{
+            const response = getPagingData(data, page, limit);
+            res.send(response);
+        })
+        .catch(err=>{
+            res.status(500).send({
+                message:
+                  err.message || "Some error occurred while retrieving dossiers."
+              });
+        })
+    } catch (error) {
+        res.status(500).send({
+            message:
+            error.message || "Some error occurred while retrieving dossiers."
+          });
+    }
 }
