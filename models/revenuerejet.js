@@ -20,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey:true
     },
     rejet_revenue: DataTypes.BOOLEAN,
+    revenue_postulant:DataTypes.STRING,
+    revenue_conjoint:DataTypes.STRING,
+    date_revenue_rejet:DataTypes.DATE
   }, {
     sequelize,
     modelName: 'RevenueRejet',

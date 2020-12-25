@@ -14,17 +14,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   ControlRejet.init({
+    is_ctrl_rejet:DataTypes.BOOLEAN,
     num_ctrl: DataTypes.STRING,
-    resultat_ctrl:{
-      type: DataTypes.BOOLEAN
-    },
     nature_ctrl: DataTypes.STRING,
-    date_resultat_ctrl: DataTypes.DATE,
+    resultat_ctrl:DataTypes.STRING,
     rejet_ctrl: {
       type: DataTypes.ENUM,
       values:["nv","redressement","recours"]
     },
+    date_resultat_ctrl: DataTypes.DATE,
     date_rejet_ctrl: DataTypes.DATE,
+    date_ctrl: DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'ControlRejet',

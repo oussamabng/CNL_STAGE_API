@@ -138,19 +138,22 @@ module.exports = (sequelize, DataTypes) => {
     date_rejet_cf: {
       type: DataTypes.DATE
     },
+    date_cf:DataTypes.DATE,
+    is_ctrl_rejet:DataTypes.BOOLEAN,
     num_ctrl: DataTypes.STRING,
-    resultat_ctrl:{
-      type: DataTypes.BOOLEAN
-    },
     nature_ctrl: DataTypes.STRING,
-    date_resultat_ctrl: DataTypes.DATE,
     rejet_ctrl: {
       type: DataTypes.ENUM,
       values:["nv","redressement","recours"]
     },
+    resulutat_ctrl:DataTypes.STRING,
+    date_resultat_ctrl: DataTypes.DATE,
     date_rejet_ctrl: DataTypes.DATE,
+    date_ctrl: DataTypes.DATE,
     rejet_revenue: DataTypes.BOOLEAN,
-    
+    revenue_postulant:DataTypes.STRING,
+    revenue_conjoint:DataTypes.STRING,
+    date_revenue_rejet:DataTypes.DATE
 
   }, {
     sequelize,

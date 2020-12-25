@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     date_rejet_cf: {
       type: DataTypes.DATE
     },
+    date_cf:DataTypes.DATE
   }, {
     sequelize,
     modelName: 'CfRejet',
