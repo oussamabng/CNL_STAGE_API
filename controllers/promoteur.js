@@ -1,7 +1,7 @@
 const Promoteur = require("../models").Promoteur;
 const db = require("../models/index");
 const Op = db.Sequelize.Op;
-const { checkAuthAndAdmin } = require("../middlewares/checkAuth");
+const { checkAuthAndAdmin, checkAuth } = require("../middlewares/checkAuth");
 const { getPagingData,getPagination } = require("../middlewares/pagination");
 const order = require("../middlewares/order");
 
@@ -48,17 +48,23 @@ exports.findOne = async(req,res)=>{
 }
 
 exports.findAll = async(req,res)=>{
-    const { page, size,search,ordering } = req.query;
+    const { page, size,search,ordering,year } = req.query;
     const { limit, offset } = getPagination(page, size);
-    const condition = search ? {
+    const search_condition = search ? {
         [Op.or]: [
           { first_name: { [Op.like]: `%${search}%` } },
           { last_name: { [Op.like]: `%${search}%` } },
           { email: { [Op.like]: `%${search}%` } },
         ]
       } : {}
+
+      const year_condition = year ? {
+          year : new Date(year,0)
+      } : {}
+
+
     checkAuthAndAdmin(req,res);
-    Promoteur.findAndCountAll({offset,limit,where:condition,order:order(ordering)})
+    Promoteur.findAndCountAll({offset,limit,where:{...search_condition,...year_condition},order:order(ordering)})
     .then(data=>{   
         const response = getPagingData(data, page, limit);
         return res.send(response);

@@ -2,7 +2,7 @@ const Dossier = require("../models").Dossier;
 const Postulant = require("../models").Postulant;
 const Liste = require("../models").Liste;
 const Transmition = require("../models").Transmition;
-
+const Project = require("../models").Project;
 const db = require("../models/index");
 const Op = db.Sequelize.Op;
 const { checkAuth } = require("../middlewares/checkAuth");
