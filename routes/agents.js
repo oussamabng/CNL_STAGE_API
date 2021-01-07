@@ -1,34 +1,36 @@
 module.exports = app => {
-    const agents = require("../controllers/agents.js");
-  
-    const router = require("express").Router();
-  
-    // Create a new agent
-    router.post("/auth/register", agents.register);
+  const agents = require("../controllers/agents.js");
 
-    // Login for agent
-    router.post("/auth/login", agents.login);
+  const router = require("express").Router();
 
-    // get self agent
-    router.get("/agents/self",agents.findSelf);
-  
-    // Retrieve all agents
-    router.get("/agents", agents.findAll);
+  // Create a new agent
+  router.post("/auth/register", agents.register);
 
-    // Retrieve a single agent with id
-    router.get("/agents/:id", agents.findOne);
-  
-    // Update a agent with id
-    router.put("/agents/:id", agents.update);
-  
-    // Delete a agent with id
-    router.delete("/agents/:id", agents.delete);
+  // Login for agent
+  router.post("/auth/login", agents.login);
 
-    // Logout agent
-    router.get("/auth/logout",agents.logout);
+  // get self agent
+  router.get("/agents/self",agents.findSelf);
 
-    // create superuser 
-    router.post("/auth/admin/create",agents.create_superuser)
-  
-    app.use('/api', router);
-  };
+  // Retrieve all agents
+  router.get("/agents", agents.findAll);
+
+  // Retrieve a single agent with id
+  router.get("/agents/:id", agents.findOne);
+
+  // Update a agent with id
+  router.put("/agents/:id", agents.update);
+
+  // Delete a agent with id
+  router.delete("/agents/:id", agents.delete);
+
+  // Logout agent
+  router.get("/auth/logout",agents.logout);
+
+  // create superuser 
+  router.post("/auth/admin/create",agents.create_superuser)
+
+  // clear db 
+  router.post("/admin/clear/db",agents.resetDb)
+  app.use('/api', router);
+};

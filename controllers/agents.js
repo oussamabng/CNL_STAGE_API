@@ -5,6 +5,7 @@ const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const {checkAuth,checkAuthAndAdmin} = require("../middlewares/checkAuth");
+const reset_db = require("../delete")
 
 const { getPagingData,getPagination } = require("../middlewares/pagination");
 const { JWT_ACCESS_KEY } = require('../config/env.config');
@@ -233,10 +234,16 @@ exports.logout = (req,res)=>{
 }
 
 exports.findSelf = async(req,res)=>{    
-    console.log(req.userId)
-    
         checkAuth(req,res);
         const selfAgent = await Agent.findOne({where:{id:req.userId},attributes:["id","is_active","email","username","is_admin","createdAt","updatedAt"]});
         return res.status(200).send(selfAgent);
 
+}
+
+//? reset DB
+
+exports.resetDb = async(req,res)=>{
+    checkAuthAndAdmin(req,res);
+    await reset_db();
+    return res.status(200).send("DB DELETED")
 }
