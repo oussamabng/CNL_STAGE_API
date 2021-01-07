@@ -110,6 +110,7 @@ exports.getForAgent = async(req,res)=>{
             'AgentId': AgentId
         }
         let dossierIds = [];
+        const searchText = search ? search : "";
         const transmitionsAgent = await Transmition.findAll({where:condition,attributes:["DossierId"]});
         transmitionsAgent.map((t)=>
             dossierIds.push(t.DossierId)
@@ -117,9 +118,25 @@ exports.getForAgent = async(req,res)=>{
         const conditionDossier = {
             id : {
                 [Op.in]: dossierIds
-            }
+            },
+            [Op.or]: [
+                {
+                  '$Postulant.first_name$':{ [Op.like]: `%${searchText}%` }
+                },
+                {
+                  '$Postulant.last_name$':{ [Op.like]: `%${searchText}%` }
+                },
+                {
+                  '$Liste.ref$':{ [Op.like]: `%${searchText}%` }
+                },
+                ,
+                {
+                  '$Postulant.place_of_birth$':{ [Op.like]: `%${searchText}%` }
+                },
+              ]
         }
-            Dossier.findAndCountAll({limit,offset,where:conditionDossier,order:order(ordering),include:[Postulant,Liste]})
+        
+         Dossier.findAndCountAll({limit,offset,where:conditionDossier,order:order(ordering),include:[Postulant,Liste]})
             .then(data=>{
             const response = getPagingData(data, page, limit);
             res.send(response);

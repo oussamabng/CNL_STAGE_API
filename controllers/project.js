@@ -29,7 +29,7 @@ exports.findOne = async(req,res)=>{
         const { id } = req.params;
         const condition = intitulé ? {id,intitulé} : {id}
         const project = await Project.findOne({
-            where:condition
+            where:condition,include:Promoteur,attributes:{exclude:["promoteur_id","PromoteurId"]}
         });
         return res.status(200).send(project);
     } catch (error) {
@@ -43,7 +43,7 @@ exports.findOne = async(req,res)=>{
 };
 
 exports.findAll = async(req,res)=>{
-        const { page, size,ordering,search,PromoteurId } = req.query;
+        const { page, size,ordering,search,PromoteurId,year } = req.query;
         const { limit, offset } = getPagination(page, size);
         const condition = search ? {
             [Op.or]: [
@@ -60,8 +60,16 @@ exports.findAll = async(req,res)=>{
               }
             ]
           } : {}
+
+        //? year filter
+        const startedDate = new Date(`${year}-01-01 00:00:00`);
+        const endDate = new Date(`${year}-12-31 00:00:00`);
+        const createdAt_condition = year ? {
+            createdAt : { [Op.between]: [startedDate,endDate] }
+        } : {}
+
         checkAuth(req,res);
-        Project.findAndCountAll({offset,limit,order:Order(ordering),where:condition,include:Promoteur,attributes:{exclude:["promoteur_id","PromoteurId"]}})
+        Project.findAndCountAll({offset,limit,order:Order(ordering),where:{...condition,...createdAt_condition},include:Promoteur,attributes:{exclude:["promoteur_id","PromoteurId"]}})
         .then(data=>{
             const response = getPagingData(data, page, limit);
             return res.status(200).send(response); 

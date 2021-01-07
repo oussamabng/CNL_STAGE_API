@@ -48,7 +48,7 @@ exports.findOne = async(req,res)=>{
 }
 
 exports.findAll = async(req,res)=>{
-    const { page, size,search,ordering,year } = req.query;
+    const { page, size,search,ordering } = req.query;
     const { limit, offset } = getPagination(page, size);
     const search_condition = search ? {
         [Op.or]: [
@@ -58,13 +58,10 @@ exports.findAll = async(req,res)=>{
         ]
       } : {}
 
-      const year_condition = year ? {
-          year : new Date(year,0)
-      } : {}
 
 
     checkAuthAndAdmin(req,res);
-    Promoteur.findAndCountAll({offset,limit,where:{...search_condition,...year_condition},order:order(ordering)})
+    Promoteur.findAndCountAll({offset,limit,where:{...search_condition},order:order(ordering)})
     .then(data=>{   
         const response = getPagingData(data, page, limit);
         return res.send(response);
