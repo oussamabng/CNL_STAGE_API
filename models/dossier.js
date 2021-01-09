@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       Dossier.hasMany(models.RevenueRejet);
       Dossier.hasMany(models.Transmition);
       Dossier.hasMany(models.Verification);
+      Dossier.belongsTo(models.Decision);
     }
   };
   Dossier.init({

@@ -44,6 +44,7 @@ require("./routes/liste")(app);
 require("./routes/controlrejet")(app);
 require("./routes/project")(app);
 require("./routes/promoteur")(app);
+require("./routes/decision")(app);
 
 //? simple route
 app.get("/", (req, res) => {
